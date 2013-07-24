@@ -1,0 +1,11 @@
+<%= render :partial => 'spree/admin/shared/configuration_menu' %>
+
+<h1><%= Spree.t("edit_saml_config") %></h1>
+
+<%= render 'spree/shared/error_messages', :target => @authentication_method %>
+
+<%= form_for(@saml_config, :url => admin_saml_config_path(@saml_config), :method => :put) do |f| %>
+  <%= render :partial => "form", :locals => { :saml_form => f } %>
+  <p class="form-buttons"><%= button Spree.t("edit") %></p>
+<% end %>
+

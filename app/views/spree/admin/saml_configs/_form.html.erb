@@ -1,0 +1,70 @@
+<%= saml_form.field_container :assertion_consumer_service_url do %>
+  <%= saml_form.label :assertion_consumer_service_url, "Assertion Consumer Service URL" %><br />
+  <%= saml_form.text_field :assertion_consumer_service_url %>
+<% end %>
+
+<%= saml_form.field_container :assertion_consumer_service_binding do %>
+  <%= saml_form.label :assertion_consumer_service_binding, "Assertion Consumer Service Binding" %><br />
+  <%= saml_form.text_field :assertion_consumer_service_binding %>
+<% end %>
+
+<%= saml_form.field_container :single_logout_service_url do %>
+  <%= saml_form.label :single_logout_service_url, "SLO Service URL" %><br />
+  <%= saml_form.text_field :single_logout_service_url %>
+<% end %>
+
+<%= saml_form.field_container :single_logout_service_binding do %>
+  <%= saml_form.label :single_logout_service_binding, "SLO Service Binding" %><br />
+  <%= saml_form.text_field :single_logout_service_binding %>
+<% end %>
+
+<%= saml_form.field_container :idp_metadata do %>
+  <%= saml_form.label :idp_metadata, "IDP Metadata URL" %><br />
+  <%= saml_form.text_field :idp_metadata %>
+<% end %>
+
+<%= saml_form.field_container :idp_metadata_ttl do %>
+  <%= saml_form.label :idp_metadata_ttl, "IDP Metadata TTL" %><br />
+  <%= saml_form.text_field :idp_metadata_ttl %>
+<% end %>
+
+<%= saml_form.field_container :name_identifier_format do %>
+  <%= saml_form.label :name_identifier_format, "Name Identifier Format" %><br />
+  <%= saml_form.text_field :name_identifier_format %>
+<% end %>
+
+<%= saml_form.field_container :issuer do %>
+  <%= saml_form.label :issuer, "Issuer" %><br />
+  <%= saml_form.text_field :issuer %>
+<% end %>
+
+<%= saml_form.field_container :authn_context do %>
+  <%= saml_form.label :authn_context, "Authentication Context" %><br />
+  <%= saml_form.text_field :authn_context %>
+<% end %>
+
+<%= saml_form.field_container :idp_cert do %>
+  <%= saml_form.label :idp_cert, "IDP Certificate" %><br />
+  <%= saml_form.text_field :idp_cert %>
+<% end %>
+
+<%= saml_form.field_container :idp_cert_fingerprint do %>
+  <%= saml_form.label :idp_cert_fingerprint, "IDP Certificate Fingerprint" %><br />
+  <%= saml_form.text_field :idp_cert_fingerprint %>
+<% end %>
+
+<%= saml_form.field_container :idp_sso_target_url do %>
+  <%= saml_form.label :idp_sso_target_url, "IDP SSO Target URL" %><br />
+  <%= saml_form.text_field :idp_sso_target_url %>
+<% end %>
+
+<%= saml_form.field_container :host do %>
+  <%= saml_form.label :host, "Host" %><br />
+  <%= saml_form.text_field :host %>
+<% end %>
+
+<%= saml_form.field_container :is_active do %>
+  <%= saml_form.label :is_active, Spree.t(:active) %><br />
+  <%= saml_form.radio_button :is_active, :true %><%= Spree.t(:yes) %>
+  <%= saml_form.radio_button :is_active, :false %><%= Spree.t(:no) %>
+<% end %>

@@ -1,0 +1,10 @@
+<%= render :partial => 'spree/admin/shared/configuration_menu' %>
+
+<h1><%= Spree.t(:new_saml_config) %></h1>
+
+<%= render :partial => 'spree/shared/error_messages', :locals => { :target => @zone } %>
+
+<%= form_for [:admin, @saml_config] do |saml_form| %>
+  <%= render :partial => 'form', :locals => { :saml_form => saml_form } %>
+  <%= render :partial => 'spree/admin/shared/new_resource_links' %>
+<% end %>
