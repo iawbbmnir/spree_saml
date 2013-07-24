@@ -8,6 +8,16 @@ class CreateAuthenticationMethods < ActiveRecord::Migration
       t.boolean :active
 
       t.timestamps
+     end
+
+    create_table :spree_authentication_saml do |t|
+	t.string :issuer
+	t.string :assertion_consumer_service_url
+	t.string :idp_sso_target_url
+	t.string :idp_cert
+	t.string :idp_cert_fingerprint
+	t.string :name_identifier_format
+
     end
   end
 end

@@ -15,3 +15,4 @@ fr:
     social_provider: "Réseau Social"
     please_confirm_your_email: "Confirmez votre adresse courriel avant de continuer"
     sign_in_with: "Identification via %{provider}"
+    add_another_service_to_sign_in_with: "Add another service to sign in with:"

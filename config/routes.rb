@@ -9,6 +9,8 @@ Spree::Core::Engine.routes.append do
 
   namespace :admin do
     resources :authentication_methods
+    resources :saml_configs
+    resources :slo_logouts
   end
 
 end

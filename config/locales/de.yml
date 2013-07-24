@@ -14,3 +14,4 @@ de:
     social_provider: "Social Provider"
     please_confirm_your_email: "Bitte bestätige deine Emailadresse um fortzufahren"
     sign_in_with: "Mit %{provider} einloggen"
+    add_another_service_to_sign_in_with: "Add another service to sign in with:"

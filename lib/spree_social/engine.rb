@@ -1,11 +1,4 @@
 module SpreeSocial
-  OAUTH_PROVIDERS = [
-    ["Facebook", "facebook"],
-    ["Twitter", "twitter"],
-    ["Github", "github"],
-    ["Google", "google_oauth2"]
-  ]
-
   class Engine < Rails::Engine
     engine_name 'spree_social'
 
@@ -25,48 +18,32 @@ module SpreeSocial
     config.to_prepare &method(:activate).to_proc
   end
 
-  # Setup all OAuth providers
-  def self.init_provider(provider)
-    return unless ActiveRecord::Base.connection.table_exists?('spree_authentication_methods')
-    key, secret = nil
-    Spree::AuthenticationMethod.where(:environment => ::Rails.env).each do |auth_method|
-      if auth_method.provider == provider
-        key = auth_method.api_key
-        secret = auth_method.api_secret
-        Rails.logger.info("[Spree Social] Loading #{auth_method.provider.capitalize} as authentication source")
-      end
-    end
-    self.setup_key_for(provider.to_sym, key, secret)
+  def self.init_saml
+    config = Spree::SamlConfig.where(:is_active => true).first
+
+    provider = "saml"
+    assertion_consumer_service_url = config.assertion_consumer_service_url
+    issuer = config.issuer
+    idp_sso_target_url = config.idp_sso_target_url
+    idp_cert = config.idp_cert.gsub(/\\n/, 10.chr)
+    name_identifier_format = config.name_identifier_format
+
+    self.setup_saml_config(provider, assertion_consumer_service_url, issuer, idp_sso_target_url, idp_cert, name_identifier_format)
   end
 
-  def self.setup_key_for(provider, key, secret)
+  def self.setup_saml_config(provider, acsu, i, istu, ic, nif)
     Devise.setup do |config|
-      config.omniauth provider, key, secret, :setup => true
+      config.omniauth :saml,
+		:assertion_consumer_service_url => acsu,
+		:issuer => i,
+		:idp_sso_target_url => istu,
+		:idp_cert => ic,
+		:name_identifier_format => nif
     end
   end
 end
 
 module OmniAuth
   module Strategies
-    class Facebook < OAuth2
-
-      MOBILE_USER_AGENTS =  'palm|blackberry|nokia|phone|midp|mobi|symbian|chtml|ericsson|minimo|' +
-                              'audiovox|motorola|samsung|telit|upg1|windows ce|ucweb|astel|plucker|' +
-                              'x320|x240|j2me|sgh|portable|sprint|docomo|kddi|softbank|android|mmp|' +
-                              'pdxgw|netfront|xiino|vodafone|portalmmm|sagem|mot-|sie-|ipod|up\\.b|' +
-                              'webos|amoi|novarra|cdm|alcatel|pocket|ipad|iphone|mobileexplorer|' +
-                              'mobile'
-      def request_phase
-        options[:scope] ||= "email,offline_access"
-        options[:display] = mobile_request? ? 'touch' : 'page'
-        super
-      end
-
-      def mobile_request?
-        ua = Rack::Request.new(@env).user_agent.to_s
-        ua.downcase =~ Regexp.new(MOBILE_USER_AGENTS)
-      end
-
-    end
   end
 end

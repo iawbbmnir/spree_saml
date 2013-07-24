@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email             = 'jdyer@spreecommerce.com'
   s.homepage          = 'http://www.spreecommerce.com'
 
-  s.files         = `git ls-files`.split("\n")
+#  s.files         = `git ls-files`.split("\n")
   s.require_path = 'lib'
   s.requirements << 'none'
 
@@ -21,6 +21,8 @@ Gem::Specification.new do |s|
   s.add_dependency 'omniauth-facebook'
   s.add_dependency 'omniauth-github'
   s.add_dependency 'omniauth-google-oauth2'
+
+  s.add_dependency 'omniauth-saml'
 
   s.add_development_dependency 'capybara', '~> 2.1'
   s.add_development_dependency 'database_cleaner'
