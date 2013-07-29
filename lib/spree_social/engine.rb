@@ -21,15 +21,16 @@ module SpreeSocial
   def self.init_saml
     config = Spree::SamlConfig.where(:is_active => true).first
 
-    provider = "saml"
-    assertion_consumer_service_url = config.assertion_consumer_service_url
-    issuer = config.issuer
-    idp_sso_target_url = config.idp_sso_target_url
-    idp_cert = config.idp_cert.gsub(/\\n/, 10.chr)
-    name_identifier_format = config.name_identifier_format
-
-    self.setup_saml_config(provider, assertion_consumer_service_url, issuer, idp_sso_target_url, idp_cert, name_identifier_format)
-  end
+    if !config.nil?
+      provider = "saml"
+      assertion_consumer_service_url = config.assertion_consumer_service_url
+      issuer = config.issuer
+      idp_sso_target_url = config.idp_sso_target_url
+      idp_cert = config.idp_cert.gsub(/\\n/, 10.chr)
+      name_identifier_format = config.name_identifier_format
+      self.setup_saml_config(provider, assertion_consumer_service_url, issuer, idp_sso_target_url, idp_cert, name_identifier_format)
+    end 
+ end
 
   def self.setup_saml_config(provider, acsu, i, istu, ic, nif)
     Devise.setup do |config|
