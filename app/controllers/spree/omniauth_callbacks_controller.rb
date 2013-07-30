@@ -13,7 +13,7 @@ class Spree::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
           authentication = Spree::UserAuthentication.find_by_provider_and_uid(auth_hash['provider'], auth_hash['info']['name'])
 
-	  if authentication != nil
+	  if !authentication.nil?
 	    user_address = Spree::User.where(:id => authentication.user_id)
 
             address_id = store_address(authentication.user_id,
@@ -22,12 +22,15 @@ class Spree::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 			auth_hash['extra']['raw_info']['telephone'], 
 			auth_hash['extra']['raw_info']['address'])
 
-            change_id = "id = " + authentication.user_id.to_s
- 	    update_ship_id = "ship_address_id = " + address_id.to_s
-            update_bill_id = "bill_address_id = " + address_id.to_s	  
-            Spree::User.update_all([update_ship_id], change_id)
-	    Spree::User.update_all([update_bill_id], change_id) 
-	    temp = Spree::User.where(change_id)
+            if !address_id.nil?
+              change_id = "id = " + authentication.user_id.to_s
+ 	      update_ship_id = "ship_address_id = " + address_id.to_s
+              update_bill_id = "bill_address_id = " + address_id.to_s	  
+              Spree::User.update_all([update_ship_id], change_id)
+	      Spree::User.update_all([update_bill_id], change_id)
+            else
+              #Address provided from SAML Assertion is invalid (eg. No city, No zipcode)
+            end 
           end
 
 	  auth_hash['uid'] = auth_hash['info']['name']
@@ -42,15 +45,19 @@ class Spree::OmniauthCallbacksController < Devise::OmniauthCallbacksController
             redirect_back_or_default(account_url)
           else
 
-            user = Spree::User.find_by_email(auth_hash['info']['email']) || Spree::User.new
+            random_pw = (0...8).map{(65+rand(26)).chr}.join
+            #puts "RandomPW: " + random_pw
+
+            user = Spree::User.find_by_email(auth_hash['info']['email']) || (Spree::User.new email: auth_hash['info']['email'], password: random_pw)
             user.apply_omniauth(auth_hash)
+
             if user.save
               flash[:notice] = "Signed in successfully."
               sign_in_and_redirect :spree_user, user
             else
               session[:omniauth] = auth_hash
               flash[:notice] = Spree.t(:one_more_step, :kind => auth_hash['provider'].capitalize)
-	      redirect_to new_user_registration_url	      
+              redirect_to new_spree_user_registration_url               
             end
           end
 
