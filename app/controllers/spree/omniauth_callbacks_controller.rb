@@ -85,6 +85,11 @@ class Spree::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def store_address(user_auth_id, raw_firstname, raw_lastname, raw_telephone, raw_address)
+
+    if user_auth_id.nil? || raw_firstname.nil? || raw_lastname.nil? || raw_telephone.nil? || raw_address.nil?
+      return nil
+    end
+
     address = raw_address.split /,\s*/
  
     sai = "ship_address_id"
