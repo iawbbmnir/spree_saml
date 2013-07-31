@@ -21,3 +21,4 @@ en:
     add_another_service_to_sign_in_with: "Add another service to sign in with:"
     sign_in_with_saml: "Sign In Using SAML"
     only_one_saml: "Only one active saml configuration at a time (restart server after altering configurations)"
+    you_have_signed_in_with_these_services: "You have signed in with these services:"
